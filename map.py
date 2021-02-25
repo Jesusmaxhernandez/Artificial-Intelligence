@@ -1,4 +1,4 @@
-f = open("map.txt")
+f = open("map1.txt")
 
 extract_details = 4
 

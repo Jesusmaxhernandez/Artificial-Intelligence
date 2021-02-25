@@ -62,3 +62,18 @@ class Breadth_First_Search:
 
 
         
+print(inMatrix)
+path = (bfs_matrix((1, 2), (4,3), inMatrix))
+print("Sequence of coordinates: ", path)
+
+
+def findTotalCost(path, matrix):
+
+    totalC = 0
+    for node in path:
+        # print(node, " this is nodesss")
+        totalC += matrix[node[0]][node[1]]
+
+    return totalC
+
+print("This is the total cost of the path found: ", findTotalCost(path, inMatrix))
