@@ -77,3 +77,4 @@ print("This is the total cost of the path found: ", findTotalCost(path, inMatrix
 #solution given - [(1, 2), (2, 1), (3, 2), (4, 3)] non zero based
 # zero based - [(0, 1), (1, 0), (2, 1), (3, 2)]
 
+    
