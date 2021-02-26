@@ -32,21 +32,31 @@ class Map:
             else:
                 input_matrix = f.read()
 
-        y_len = int(self.dimensions[2])
-        x_len = int(self.dimensions[0])
+        # Parses through dimensions to find x and y 
+        x_len = ""
+        y_len = ""
+        whiteSpaceCounter = 0
+
+        for w in self.dimensions:
+            if (w != " " and whiteSpaceCounter == 0):
+                x_len += w
+            elif (w != " " and whiteSpaceCounter == 1):
+                y_len += w
+            else:
+                whiteSpaceCounter += 1
 
         #Splits string into array
         arr = input_matrix.split()
 
         #Initializes map with 0's
-        self.matrix = [[0 for y in range(y_len)] for x in range(x_len)]
+        self.matrix = [[0 for y in range(int(y_len))] for x in range(int(x_len))]
 
         #Copies over array into 2D map
         x = 0
         y = 0
         for i in arr:
-            if x < x_len:
-                if y < y_len:
+            if x < int(x_len):
+                if y < int(y_len):
                     self.matrix[x][y] = int(i)
                     y = y + 1
                 else:
