@@ -18,9 +18,7 @@ class Map:
     def __matrix__(self):
         return self.matrix
     
-    def read_file(self):
-        f = open("map1.txt")
-
+    def read_file(self,f):
         extract_details = 4
 
         #Reads first three lines
