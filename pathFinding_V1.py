@@ -10,23 +10,25 @@ inMatrix = [[2,4,2,1,4,5,2],
             [4,3,3,2,1,0,1]]
 
 x = map_details.Map()
-x.read_file()
+#x.read_file()
 
 
 print(x.dimensions)
 print(x.goal)
 print(x.matrix)
+ 
+def get_args():
 
-
-def get_args(argv):
-
-    input_file_name = argv[1] # get input file
+    input_file_name = sys.argv[1] # get input file
     print(input_file_name)
-    
-    if 'BFS' == argv[2]:
+    print(sys.argv[2])
+
+    if "BFS" == sys.argv[2]:
         algroithim_to_run = 'bfs'
         print("BFS!")
-    elif 'IDS' == argv[2]:
+    elif 'IDS' == sys.argv[2]:
         algroithim_to_run = 'ids'
-    elif 'A*' == argv[2]: 
+    elif 'A*' == sys.argv[2]: 
         algroithim_to_run = 'A*'
+
+get_args()
