@@ -1,6 +1,6 @@
-class read_map:
+class Map:
 
-    def __init__(self, dimensions, starting_loc, goal, matrix):     
+    def __init__(self):     
         self.dimensions = 0
         self.starting_loc = 0
         self.goal = 0
@@ -19,7 +19,7 @@ class read_map:
         return self.matrix
     
     def read_file(self):
-        f = open("input.txt")
+        f = open("map1.txt")
 
         extract_details = 4
 
@@ -39,7 +39,6 @@ class read_map:
 
         #Splits string into array
         arr = input_matrix.split()
-        print(arr)
 
         #Initializes map with 0's
         self.matrix = [[0 for y in range(y_len)] for x in range(x_len)]
@@ -58,10 +57,6 @@ class read_map:
                     self.matrix[x][y] = i
                     y = y + 1
         
-        #print(map)
-        #return dimensions, starting_loc, goal, map
 
-#dimensions, starting_loc, goal, matrix = map.read_map()
-#print(read_map())
 
 
