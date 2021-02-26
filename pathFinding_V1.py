@@ -3,35 +3,25 @@ import map_details
 import Breadth_First_Search
 
 def get_args():
-    m = map_details.Map()
-    bfs = Breadth_First_Search.Breadth_First_Search()
+    m = map_details.Map() # create map_details to read input map
+    
     file_name = sys.argv[1] # get input file
 
     if "BFS" == sys.argv[2]:
-        algroithim_to_run = 'bfs'
+        algo = Breadth_First_Search.Breadth_First_Search()
     elif 'IDS' == sys.argv[2]:
-        algroithim_to_run = 'ids'
+        pass
     elif 'A*' == sys.argv[2]: 
-        algroithim_to_run = 'A*'
-
+        pass
+    
     f = open(file_name)
     m.read_file(f)
+    
     start_loc = tuple(map(int, m.starting_loc.split(' ')))
     goal = tuple(map(int, m.goal.split(' ')))
-    #print(bfs.bfs_matrix(start_loc,goal,m.matrix))
-
-    # Print Cost of path found
-
-    # Print number of nodes expanded
-
-    # Print Maximum number of nodes held in memory
-
-    # print Runtime in Milliseconds 
-
-    # Print path
-
-def print_info():
-
-
+    
+    
+    algo.bfs_matrix(start_loc,goal,m.matrix)
+    algo.print_info()
 
 get_args()
