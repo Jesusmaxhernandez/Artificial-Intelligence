@@ -47,12 +47,12 @@ class Map:
         for i in arr:
             if x < x_len:
                 if y < y_len:
-                    self.matrix[x][y] = i
+                    self.matrix[x][y] = int(i)
                     y = y + 1
                 else:
                     y = 0
                     x = x + 1
-                    self.matrix[x][y] = i
+                    self.matrix[x][y] = int(i)
                     y = y + 1
         
 
