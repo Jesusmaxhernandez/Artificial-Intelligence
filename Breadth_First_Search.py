@@ -43,14 +43,14 @@ class Breadth_First_Search():
         maxNodeMem = 0
 
         while queue: 
-
+            if timer() - timerStart >= 180:
+                print("BFS elapsed time is greater than 3 minutes ")
+                return
+            
             if(maxNodeMem < len(queue)):
                 maxNodeMem = len(queue)
 
             (node, path) = queue.pop(0)
-
-            # print(node, " this is node")
-            # print(node, ", this is path")
 
             path.append(node)
             
@@ -58,15 +58,12 @@ class Breadth_First_Search():
                 timerEnd = timer()
 
                 totalTime = (timerEnd - timerStart) * 1000
-                # print("Number of nodes expanded", numOfNodesExpandes)
-                # print("Maximimum number of nodes held in memory: ", maxNodeMem)
+
                 self.numNodesExp = numOfNodesExpandes
                 self.maxNodesInMem = maxNodeMem
                 self.time = totalTime
                 self.costPath = findTotalCost(path, matrix)
                 self.pathSeq = path
-                #return 1
-                #return (path, numOfNodesExpandes, maxNodeMem, totalTime)
 
             #Goes through neighbors
             for move in directions:
@@ -79,13 +76,10 @@ class Breadth_First_Search():
                 
             #Adds unexplored nodes in queue
             for child in valid_coords:
-                # print("This is exploredNodes BEFORE: ", exploredNodes)
-                # print("this is children BEFORE: ", child)
                 if child not in exploredNodes:
                     exploredNodes.append(child)
                     numOfNodesExpandes += 1
-                    # print("This is exploredNodes: ", exploredNodes)
-                    # print("this is children", child)
+
                     queue.append((child, path[:]))  
         return -1
     
@@ -107,7 +101,6 @@ def findTotalCost(path, matrix):
 
     totalC = 0
     for node in path:
-        # print(node, " this is nodesss")
         totalC += matrix[node[0]][node[1]]
 
     return totalC
