@@ -39,13 +39,13 @@ class Breadth_First_Search():
         directions = list([(-1,0), (1,0), (0,-1), (0,1)]) 
 
         matrixLen = len(matrix)
-        numOfNodesExpandes = 1
+        numOfNodesExpanded = 1
         maxNodeMem = 0
 
         while queue: 
             if timer() - timerStart >= 180:
                 print("BFS elapsed time is greater than 3 minutes ")
-                return
+                exit()
             
             if(maxNodeMem < len(queue)):
                 maxNodeMem = len(queue)
@@ -59,11 +59,13 @@ class Breadth_First_Search():
 
                 totalTime = (timerEnd - timerStart) * 1000
 
-                self.numNodesExp = numOfNodesExpandes
+                self.numNodesExp = numOfNodesExpanded
                 self.maxNodesInMem = maxNodeMem
                 self.time = totalTime
                 self.costPath = findTotalCost(path, matrix)
                 self.pathSeq = path
+
+                return 1
 
             #Goes through neighbors
             for move in directions:
@@ -78,9 +80,20 @@ class Breadth_First_Search():
             for child in valid_coords:
                 if child not in exploredNodes:
                     exploredNodes.append(child)
-                    numOfNodesExpandes += 1
+                    numOfNodesExpanded += 1
 
                     queue.append((child, path[:]))  
+        
+        #Could not find goal
+        timerEnd = timer()
+        totalTime = (timerEnd - timerStart) * 1000
+
+        self.numNodesExp = numOfNodesExpanded
+        self.maxNodesInMem = maxNodeMem
+        self.time = totalTime
+        self.costPath = -1
+        self.pathSeq = "NULL"
+
         return -1
     
     def print_info(self):

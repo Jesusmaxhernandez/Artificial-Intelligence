@@ -2,7 +2,7 @@ import sys
 import map_details
 import Breadth_First_Search
 
-def get_args():
+def main():
     m = map_details.Map() # create map_details to read input map
     
     file_name = sys.argv[1] # get input file
@@ -13,6 +13,9 @@ def get_args():
         pass
     elif 'A*' == sys.argv[2]: 
         pass
+    else:
+        print("PlEASE PUT CORRECT PARAMETERS")
+        exit()
     
     f = open(file_name)
     m.read_file(f)
@@ -20,8 +23,11 @@ def get_args():
     start_loc = tuple(map(int, m.starting_loc.split(' ')))
     goal = tuple(map(int, m.goal.split(' ')))
     
-    
     algo.bfs_matrix(start_loc,goal,m.matrix)
-    algo.print_info()
+    if algo.bfs_matrix(start_loc,goal,m.matrix) == 1:
+        algo.print_info()
+    else:
+        algo.print_info()
+        print("Could not find the goal node")
 
-get_args()
+main()
