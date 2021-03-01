@@ -1,7 +1,9 @@
 import Node
 from timeit import default_timer as timer
 
-# Code from https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
+# Code based off https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
+
+
 class A_Star():
     def __init__(self):
         self.costPath = 0 
@@ -45,9 +47,14 @@ class A_Star():
 
         # Loop until you find the end
         while len(open_list) > 0:
+            # Start Timer 
             if timer() - timerStart >= 180:
                 print("BFS elapsed time is greater than 3 minutes ")
                 exit()
+
+            # Get max number of nodes in memory 
+
+
 
             # Get the current node
             current_node = open_list[0]
@@ -67,12 +74,15 @@ class A_Star():
                 timerEnd = timer()
                 totalTime = (timerEnd - timerStart) * 1000
                
+
+               # Add append path from node to list
                 path = []
                 current = current_node
                 while current is not None:
                     path.append(current.position)
                     current = current.parent
                 
+                self.time = totalTime
                 self.costPath = findTotalCost(path, maze)
                 self.pathSeq = path[::-1] 
                 return 1 #path[::-1] # Return reversed path
@@ -168,6 +178,7 @@ def main():
     print(path.pathSeq)
     print(path.costPath)
     print(path.numNodesExp)
+    print(path.time)
 
 
 if __name__ == '__main__':
