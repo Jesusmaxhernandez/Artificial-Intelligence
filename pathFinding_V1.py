@@ -1,6 +1,7 @@
 import sys
 import map_details
 import Breadth_First_Search
+import Iterative_Deep
 
 def main():
     m = map_details.Map() # create map_details to read input map
@@ -10,7 +11,7 @@ def main():
     if "BFS" == sys.argv[2]:
         algo = Breadth_First_Search.Breadth_First_Search()
     elif 'IDS' == sys.argv[2]:
-        pass
+        algo = Iterative_Deep.Iterative_Deep_Search()
     elif 'A*' == sys.argv[2]: 
         pass
     else:
