@@ -41,6 +41,7 @@ class Iterative_Deep_Search():
         matrixLen = len(matrix)
         numOfNodesExpanded = 1
         maxNodeMem = 0
+        depth = 0
 
         while queue: 
             if timer() - timerStart >= 180:
@@ -50,7 +51,12 @@ class Iterative_Deep_Search():
             if(maxNodeMem < len(queue)):
                 maxNodeMem = len(queue)
 
+            print("THIS IS THE Child: ", queue)
+           
+
             (node, path) = queue.pop()
+
+            print("This is what is popped: ", (node, path))
 
             path.append(node)
             
@@ -65,23 +71,26 @@ class Iterative_Deep_Search():
                 self.costPath = findTotalCost(path, matrix)
                 self.pathSeq = path
 
+                print("THIS IS THE DEPTH: " , depth)
+
                 return 1
 
             #Goes through neighbors
             for move in directions:
-                x_coord = node[0] + move[0] #0?
-                y_coord = node[1] + move[1] #3
+                x_coord = node[0] + move[0] 
+                y_coord = node[1] + move[1] 
                 
                 #CHECK VALUE FOR 0 and check if 
                 if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
                     valid_coords.append((x_coord,y_coord))
-                
+
+            depth += 1
+
             #Adds unexplored nodes in queue
             for child in valid_coords:
                 if child not in exploredNodes:
                     exploredNodes.append(child)
                     numOfNodesExpanded += 1
-
                     queue.append((child, path[:]))  
         
         #Could not find goal
@@ -96,6 +105,90 @@ class Iterative_Deep_Search():
 
         return -1
     
+    def IDS(self, src, target, matrix):
+        limit = 0
+
+        while 1 == 1:
+            exploredNodes = []
+            exploredNodes.append(src)
+            path = []
+
+            if(self.DLS(src, target, limit, matrix, exploredNodes, path) == 1):
+                print("FOUND THE NODE at DEPTH: ", limit)
+                path.append(target)
+                self.pathSeq = path
+                return 1
+            
+            limit += 1
+
+        return 0
+
+    def DLS(self, src, target, maxDepth, matrix, exploredNodes, path):
+
+        valid_coords = []
+
+        directions = list([(-1,0), (1,0), (0,-1), (0,1)]) 
+        matrixLen = len(matrix)
+
+        if src == target:
+            print("Depth: " , maxDepth)
+            return 1
+        
+        if maxDepth <= 0:
+            return 0
+
+        for move in reversed(directions):
+                x_coord = src[0] + move[0] 
+                y_coord = src[1] + move[1]
+                
+                #CHECK VALUE FOR 0 and check if valid coordinates
+                if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
+                    valid_coords.append((x_coord,y_coord))
+                
+        for child in valid_coords:
+            if child not in exploredNodes:
+                #Adds unexplored nodes in queue
+                exploredNodes.append(child)
+                if(self.DLS(child, target, maxDepth-1, matrix, exploredNodes, path)):
+                    print("SUCCESS node", src, " THsi is the depth: ", maxDepth)
+                    path.insert(0, src)
+                    exploredNodes.append(child)
+                    return 1
+                #exploredNodes.append(child)
+                print("THis the node", src, " THsi is the depth: ", maxDepth)
+                # numOfNodesExpanded += 1
+
+                # queue.append((child, path[:]))  
+
+        # for i in matrix[src]:
+        #     if(self.DLS(i, target, maxDepth-1, matrix)):
+        #         return 1
+        # for move in directions:
+            
+        #     x_coord = src[0] + move[0] 
+        #     y_coord = src[1] + move[1] 
+
+        #     print("this is x: ", x_coord)
+        #     print("this is y: ", y_coord)
+
+            # for child in valid_coords:
+            #     if child not in exploredNodes:
+            #         exploredNodes.append(child)
+            #         numOfNodesExpanded += 1
+
+            #         queue.append((child, path[:]))  
+            
+            #CHECK VALUE FOR 0 and check if 
+            # if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
+            #     if src not in eN:
+            #         if(self.DLS(move, target, maxDepth-1, matrix, eN)):
+            #             print("SUCCESS node", src, " THsi is the depth: ", maxDepth)
+            #             return 1
+            #         eN.append(src)
+            #         print("THis the node", src, " THsi is the depth: ", maxDepth)
+        print("en: ", exploredNodes)
+        return 0
+
     def print_info(self):
         
         print("Printing out information")
@@ -104,7 +197,7 @@ class Iterative_Deep_Search():
         # Print number of nodes expanded
         print("2) number of nodes exapanded: {} ".format(self.numNodesExp))
         # Print Maximum number of nodes held in memory
-        print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
+        # print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
         # print Runtime in Milliseconds 
         print("4) runtime in milliseconds: {} ".format(self.time))
         # Print path
