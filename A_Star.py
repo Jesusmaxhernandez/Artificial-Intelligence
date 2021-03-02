@@ -27,7 +27,7 @@ class A_Star():
     def __pathSeq__(self):
         return self.pathSeq
 
-    def a_star_matrix(self, maze, start, end):   
+    def a_star_matrix(self, start, end, maze):   
         # Timer Start
         timerStart = timer()
         queue = [(start, [])]
@@ -183,36 +183,3 @@ def findTotalCost(path, matrix):
         totalC += matrix[node[0]][node[1]]
 
     return totalC
-
-def main():
-
-    maze = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    og = [[2,4,2,1,4,5,2], 
-                [0,1,2,3,5,3,1], 
-                [2,0,4,4,1,2,4], 
-                [2,5,5,3,2,0,1], 
-                [4,3,3,2,1,0,1]]
-    
-    inMatrix = [[2,4,2,1,4,5,2], 
-                [0,1,2,3,5,3,1], 
-                [2,0,0,0,0,0,4], 
-                [2,5,5,3,2,0,1], 
-                [4,3,3,2,1,1,1]]
-    start = (1, 2)
-    end = (0, 0)
-
-    path = A_Star()
-    path.a_star_matrix(inMatrix, start, end)
-    path.print_info()
-
-if __name__ == '__main__':
-    main()
