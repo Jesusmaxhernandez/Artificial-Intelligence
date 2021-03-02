@@ -2,33 +2,53 @@ import sys
 import map_details
 import Breadth_First_Search
 import Iterative_Deep
+import A_Star
 
 def main():
-    m = map_details.Map() # create map_details to read input map
+    # Create map_details to read input map
+    map_Data = map_details.Map() # create map_details to read input map
     
-    file_name = sys.argv[1] # get input file
+    # Get Input File 
+    file_name = sys.argv[1] # 
 
     if "BFS" == sys.argv[2]:
         algo = Breadth_First_Search.Breadth_First_Search()
     elif 'IDS' == sys.argv[2]:
         algo = Iterative_Deep.Iterative_Deep_Search()
     elif 'A*' == sys.argv[2]: 
-        pass
+        algo = A_Star.A_Star()
     else:
         print("PlEASE PUT CORRECT PARAMETERS")
         exit()
     
     f = open(file_name)
-    m.read_file(f)
+    map_Data.read_file(f)
     
-    start_loc = tuple(map(int, m.starting_loc.split(' ')))
-    goal = tuple(map(int, m.goal.split(' ')))
+    start_loc = tuple(map(int, map_Data.starting_loc.split(' ')))
+    goal = tuple(map(int, map_Data.goal.split(' ')))
     
-    algo.bfs_matrix(start_loc,goal,m.matrix)
-    if algo.bfs_matrix(start_loc,goal,m.matrix) == 1:
-        algo.print_info()
-    else:
-        algo.print_info()
-        print("Could not find the goal node")
+    if "BFS" == sys.argv[2]:
+        if algo.bfs_matrix(start_loc,goal,map_Data.matrix) == 1:
+            algo.print_info()
+        else:
+            algo.print_info()
+            print("Could not find the goal node")
 
-main()
+    elif 'IDS' == sys.argv[2]:
+        if algo.bfs_matrix(start_loc,goal,map_Data.matrix) == 1:
+            algo.print_info()
+        else:
+            algo.print_info()
+            print("Could not find the goal node")
+
+    elif 'A*' == sys.argv[2]: 
+        if algo.a_star_matrix(start_loc,goal,map_Data.matrix) == 1:
+            algo.print_info()
+        else:
+            algo.print_info()
+            print("Could not find the goal node")
+    else:
+        pass
+
+if __name__ == '__main__':
+    main()
