@@ -1,29 +1,13 @@
 from timeit import default_timer as timer
-
+import Algo_Data
 class Breadth_First_Search():
     
     def __init__(self):
-        self.costPath = 0 
-        self.numNodesExp = 0
-        self.maxNodesMem = 0
-        self.time = 0
-        self.pathSeq = []
+        self.data = Algo_Data.Algo_Data()
+    
+    def __Data__(self):
+        return self.data 
 
-    def __costPath__(self):
-        return self.costPath
-
-    def __numNodesExp__(self):
-        return self.numNodesExp
-    
-    def __maxNodeMem__(self):
-        return self.maxNodesInMem
-    
-    def __time__(self):
-        return self.time
-    
-    def __pathSeq__(self):
-        return self.pathSeq
-    
     def bfs_matrix(self, start, goal, matrix):
 
         #Timer Start
@@ -59,11 +43,13 @@ class Breadth_First_Search():
 
                 totalTime = (timerEnd - timerStart) * 1000
 
-                self.numNodesExp = numOfNodesExpanded
-                self.maxNodesInMem = maxNodeMem
-                self.time = totalTime
-                self.costPath = findTotalCost(path, matrix)
-                self.pathSeq = path
+                self.data.numNodesExp = numOfNodesExpanded
+                self.data.maxNodesInMem = maxNodeMem
+                self.data.time = totalTime
+                #self.data.costPath = findTotalCost(path, matrix)
+                self.data.findTotalCost(path,matrix)
+                self.data.pathSeq = path
+                #Algo_Data.print_info()
 
                 return 1
 
@@ -97,23 +83,6 @@ class Breadth_First_Search():
         return -1
     
     def print_info(self):
-        
-        print("Printing out information")
-        # Print Cost of path found
-        print("1) cost of path: {} ".format(self.costPath))
-        # Print number of nodes expanded
-        print("2) number of nodes expanded: {} ".format(self.numNodesExp))
-        # Print Maximum number of nodes held in memory
-        print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
-        # print Runtime in Milliseconds 
-        print("4) runtime in milliseconds: {} ".format(self.time))
-        # Print path
-        print("5) path: {} ".format(self.pathSeq))
+        self.data.print_info()
 
-def findTotalCost(path, matrix):
 
-    totalC = 0
-    for node in path:
-        totalC += matrix[node[0]][node[1]]
-
-    return totalC

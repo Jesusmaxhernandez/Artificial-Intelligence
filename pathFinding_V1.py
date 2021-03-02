@@ -27,6 +27,8 @@ def main():
     start_loc = tuple(map(int, map_Data.starting_loc.split(' ')))
     goal = tuple(map(int, map_Data.goal.split(' ')))
     
+    
+    
     if "BFS" == sys.argv[2]:
         if algo.bfs_matrix(start_loc,goal,map_Data.matrix) == 1:
             algo.print_info()
@@ -48,7 +50,9 @@ def main():
             algo.print_info()
             print("Could not find the goal node")
     else:
-        pass
+        print("PlEASE PUT CORRECT PARAMETERS")
+        exit()
+    
 
 if __name__ == '__main__':
     main()

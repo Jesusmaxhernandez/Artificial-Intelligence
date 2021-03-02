@@ -1,4 +1,5 @@
 import Node
+import Algo_Data
 from timeit import default_timer as timer
 
 # Code based off https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
@@ -6,27 +7,11 @@ from timeit import default_timer as timer
 
 class A_Star():
     def __init__(self):
-        self.costPath = 0 
-        self.numNodesExp = 0
-        self.maxNodesMem = 0
-        self.time = 0
-        self.pathSeq = []
-
-    def __costPath__(self):
-        return self.costPath
-
-    def __numNodesExp__(self):
-        return self.numNodesExp
+        self.data = Algo_Data.Algo_Data()
     
-    def __maxNodeMem__(self):
-        return self.maxNodesInMem
+    def __Data__(self):
+        return self.data
     
-    def __time__(self):
-        return self.time
-    
-    def __pathSeq__(self):
-        return self.pathSeq
-
     def a_star_matrix(self, start, end, maze):   
         # Timer Start
         timerStart = timer()
@@ -89,12 +74,12 @@ class A_Star():
                     path.append(current.position)
                     current = current.parent
                 
-                self.numNodesExp = numOfNodesExpanded
-                self.maxNodesInMem = maxNodeMem
-                self.time = totalTime
-                self.costPath = findTotalCost(path, maze)
+                self.data.numNodesExp = numOfNodesExpanded
+                self.data.maxNodesInMem = maxNodeMem
+                self.data.time = totalTime
+                self.data.findTotalCost(path,maze)
                 # Return reversed path
-                self.pathSeq = path[::-1] 
+                self.data.pathSeq = path[::-1] 
                 return 1 
 
             # Generate children
@@ -150,36 +135,17 @@ class A_Star():
         timerEnd = timer()
         totalTime = (timerEnd - timerStart) * 1000
 
-        self.numNodesExp = numOfNodesExpanded
-        self.maxNodesInMem = maxNodeMem
-        self.time = totalTime
-        self.costPath = -1
-        self.pathSeq = "NULL"
+        self.dataanumNodesExp = numOfNodesExpanded
+        self.data.maxNodesInMem = maxNodeMem
+        self.data.time = totalTime
+        self.data.costPath = -1
+        self.data.pathSeq = "NULL"
         return -1
         
     def print_info(self):
-        
-        print("Printing out information")
-        # Print Cost of path found
-        print("1) cost of path: {} ".format(self.costPath))
-        # Print number of nodes expanded
-        print("2) number of nodes expanded: {} ".format(self.numNodesExp))
-        # Print Maximum number of nodes held in memory
-        print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
-        # print Runtime in Milliseconds 
-        print("4) runtime in milliseconds: {} ".format(self.time))
-        # Print path
-        print("5) path: {} ".format(self.pathSeq))
+        self.data.print_info()      
                 
 # a = neighbor and b = goal using Mantattan Distance formula
 def heuristic(a, b):
     # abs(x1−x2)+abs(y1−y2)
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
-
-def findTotalCost(path, matrix):
-
-    totalC = 0
-    for node in path:
-        totalC += matrix[node[0]][node[1]]
-
-    return totalC
