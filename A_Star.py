@@ -27,10 +27,16 @@ class A_Star():
     def __pathSeq__(self):
         return self.pathSeq
 
-    def astar(self, maze, start, end):   
-        #Timer Start
+    def a_star_matrix(self, maze, start, end):   
+        # Timer Start
         timerStart = timer()
         queue = [(start, [])]
+
+        # Max Nodes expanded
+        numOfNodesExpanded = 1
+        
+        # Max nodes in memory
+        maxNodeMem = 0
 
         # Create start and end node
         start_node = Node.Node(None, start)
@@ -53,7 +59,8 @@ class A_Star():
                 exit()
 
             # Get max number of nodes in memory 
-
+            if(maxNodeMem < len(open_list)):
+                maxNodeMem = len(open_list)
 
 
             # Get the current node
@@ -70,7 +77,7 @@ class A_Star():
 
             # Found the goal
             if current_node == end_node:
-                #End the timer
+                # End the timer
                 timerEnd = timer()
                 totalTime = (timerEnd - timerStart) * 1000
                
@@ -82,13 +89,17 @@ class A_Star():
                     path.append(current.position)
                     current = current.parent
                 
+                self.numNodesExp = numOfNodesExpanded
+                self.maxNodesInMem = maxNodeMem
                 self.time = totalTime
                 self.costPath = findTotalCost(path, maze)
+                # Return reversed path
                 self.pathSeq = path[::-1] 
-                return 1 #path[::-1] # Return reversed path
+                return 1 
 
             # Generate children
             children = []
+            # Adjacent squares in order of up, down, left, right
             for new_position in [(-1,0), (1,0), (0,-1), (0,1)]: # Adjacent squares
 
                 # Get node position
@@ -133,11 +144,37 @@ class A_Star():
                 open_list.append(child)
 
                 # Increment number of nodes expanded
-                self.numNodesExp += 1
-                
+                numOfNodesExpanded += 1
+        
+        #Could not find goal
+        timerEnd = timer()
+        totalTime = (timerEnd - timerStart) * 1000
 
-def heuristic(a, b):#a = neighbor and b = goal // Need to fix?
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])#Manhattan Distance
+        self.numNodesExp = numOfNodesExpanded
+        self.maxNodesInMem = maxNodeMem
+        self.time = totalTime
+        self.costPath = -1
+        self.pathSeq = "NULL"
+        return -1
+        
+    def print_info(self):
+        
+        print("Printing out information")
+        # Print Cost of path found
+        print("1) cost of path: {} ".format(self.costPath))
+        # Print number of nodes expanded
+        print("2) number of nodes exapanded: {} ".format(self.numNodesExp))
+        # Print Maximum number of nodes held in memory
+        print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
+        # print Runtime in Milliseconds 
+        print("4) runtime in milliseconds: {} ".format(self.time))
+        # Print path
+        print("5) path: {} ".format(self.pathSeq))
+                
+# a = neighbor and b = goal using Mantattan Distance formula
+def heuristic(a, b):
+    # abs(x1−x2)+abs(y1−y2)
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 def findTotalCost(path, matrix):
 
@@ -174,12 +211,8 @@ def main():
     end = (0, 0)
 
     path = A_Star()
-    path.astar(inMatrix, start, end)
-    print(path.pathSeq)
-    print(path.costPath)
-    print(path.numNodesExp)
-    print(path.time)
-
+    path.a_star_matrix(inMatrix, start, end)
+    path.print_info()
 
 if __name__ == '__main__':
     main()
