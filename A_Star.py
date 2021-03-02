@@ -163,7 +163,7 @@ class A_Star():
         # Print Cost of path found
         print("1) cost of path: {} ".format(self.costPath))
         # Print number of nodes expanded
-        print("2) number of nodes exapanded: {} ".format(self.numNodesExp))
+        print("2) number of nodes expanded: {} ".format(self.numNodesExp))
         # Print Maximum number of nodes held in memory
         print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
         # print Runtime in Milliseconds 
