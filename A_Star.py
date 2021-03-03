@@ -15,7 +15,6 @@ class A_Star():
     def a_star_matrix(self, start, end, maze):   
         # Timer Start
         timerStart = timer()
-        queue = [(start, [])]
 
         # Max Nodes expanded
         numOfNodesExpanded = 1
@@ -108,9 +107,9 @@ class A_Star():
             for child in children:
 
                 # Child is on the closed list
-                for closed_child in closed_list:
-                    if child == closed_child:
-                        continue
+                # for closed_child in closed_list:
+                if child in closed_list:
+                    continue
                 # Initilize two parameters for heuristic (manhattan Distance)
                 neighbors = child.position[0],child.position[1]
                 goalNode = end_node.position[0],end_node.position[1]
@@ -121,9 +120,8 @@ class A_Star():
                 child.f = child.g + child.h
 
                 # Child is already in the open list
-                for open_node in open_list:
-                    if child == open_node and child.g > open_node.g:
-                        continue
+                if child in open_list: 
+                    continue
 
                 # Add the child to the open list
                 open_list.append(child)

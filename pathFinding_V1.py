@@ -15,7 +15,7 @@ def main():
         algo = Breadth_First_Search.Breadth_First_Search()
     elif 'IDS' == sys.argv[2]:
         algo = Iterative_Deep.Iterative_Deep_Search()
-    elif 'A*' == sys.argv[2]: 
+    elif 'AS' == sys.argv[2]: 
         algo = A_Star.A_Star()
     else:
         print("PlEASE PUT CORRECT PARAMETERS")
@@ -37,13 +37,13 @@ def main():
             print("Could not find the goal node")
 
     elif 'IDS' == sys.argv[2]:
-        if algo.bfs_matrix(start_loc,goal,map_Data.matrix) == 1:
+        if algo.IDS(start_loc,goal,map_Data.matrix) == 1:
             algo.print_info()
         else:
             algo.print_info()
             print("Could not find the goal node")
 
-    elif 'A*' == sys.argv[2]: 
+    elif 'AS' == sys.argv[2]: 
         if algo.a_star_matrix(start_loc,goal,map_Data.matrix) == 1:
             algo.print_info()
         else:

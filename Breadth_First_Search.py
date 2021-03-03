@@ -46,17 +46,15 @@ class Breadth_First_Search():
                 self.data.numNodesExp = numOfNodesExpanded
                 self.data.maxNodesInMem = maxNodeMem
                 self.data.time = totalTime
-                #self.data.costPath = findTotalCost(path, matrix)
                 self.data.findTotalCost(path,matrix)
                 self.data.pathSeq = path
-                #Algo_Data.print_info()
 
                 return 1
 
             #Goes through neighbors
             for move in directions:
-                x_coord = node[0] + move[0] #0?
-                y_coord = node[1] + move[1] #3
+                x_coord = node[0] + move[0] 
+                y_coord = node[1] + move[1] 
                 
                 #CHECK VALUE FOR 0 and check if 
                 if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
@@ -84,5 +82,3 @@ class Breadth_First_Search():
     
     def print_info(self):
         self.data.print_info()
-
-
