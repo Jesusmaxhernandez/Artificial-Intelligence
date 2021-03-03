@@ -54,16 +54,20 @@ class Map:
         #Copies over array into 2D map
         x = 0
         y = 0
-        for i in arr:
-            if x < int(x_len):
-                if y < int(y_len):
-                    self.matrix[x][y] = int(i)
-                    y = y + 1
-                else:
-                    y = 0
-                    x = x + 1
-                    self.matrix[x][y] = int(i)
-                    y = y + 1
+        try:
+            for i in arr:
+                if x < int(x_len):
+                    if y < int(y_len):
+                        self.matrix[x][y] = int(i)
+                        y = y + 1
+                    else:
+                        y = 0
+                        x = x + 1
+                        self.matrix[x][y] = int(i)
+                        y = y + 1
+        except Exception as e:
+            print(e)
+            exit(0)
         
 
 
