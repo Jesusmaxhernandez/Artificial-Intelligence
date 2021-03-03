@@ -1,114 +1,17 @@
 from timeit import default_timer as timer
+import Algo_Data
 
 class Iterative_Deep_Search():
     
     def __init__(self):
-        self.costPath = 0 
-        self.numNodesExp = 0
-        self.maxNodesMem = 0
-        self.time = 0
-        self.pathSeq = []
+        self.data = Algo_Data.Algo_Data()
         self.exploredNodesCopy = []
-
-    def __costPath__(self):
-        return self.costPath
-
-    def __numNodesExp__(self):
-        return self.numNodesExp
-    
-    def __maxNodeMem__(self):
-        return self.maxNodesInMem
-    
-    def __time__(self):
-        return self.time
-    
-    def __pathSeq__(self):
-        return self.pathSeq
-    
-    def bfs_matrix(self, start, goal, matrix):
-
-    
-
-        #Timer Start
-        timerStart = timer()
-        queue = [(start, [])]
-        #"Closed List"
-        exploredNodes = []
-        exploredNodes.append(start)
-        #Used to insert valid coordinates into queue
-        valid_coords = []
-
-        #Order and directions that can can travel up,down,left,right
-        directions = list([(-1,0), (1,0), (0,-1), (0,1)]) 
-
-        matrixLen = len(matrix)
-        numOfNodesExpanded = 1
-        maxNodeMem = 0
-        depth = 0
-
-        while queue: 
-            if timer() - timerStart >= 180:
-                print("IDS elapsed time is greater than 3 minutes ")
-                exit()
-            
-            if(maxNodeMem < len(queue)):
-                maxNodeMem = len(queue)
-
-            print("THIS IS THE Child: ", queue)
-           
-
-            (node, path) = queue.pop()
-
-            print("This is what is popped: ", (node, path))
-
-            path.append(node)
-            
-            if node == goal:
-                timerEnd = timer()
-
-                totalTime = (timerEnd - timerStart) * 1000
-
-                self.numNodesExp = numOfNodesExpanded
-                self.maxNodesInMem = maxNodeMem
-                self.time = totalTime
-                self.costPath = findTotalCost(path, matrix)
-                self.pathSeq = path
-
-                print("THIS IS THE DEPTH: " , depth)
-
-                return 1
-
-            #Goes through neighbors
-            for move in directions:
-                x_coord = node[0] + move[0] 
-                y_coord = node[1] + move[1] 
-                
-                #CHECK VALUE FOR 0 and check if 
-                if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
-                    valid_coords.append((x_coord,y_coord))
-
-            depth += 1
-
-            #Adds unexplored nodes in queue
-            for child in valid_coords:
-                if child not in exploredNodes:
-                    exploredNodes.append(child)
-                    numOfNodesExpanded += 1
-                    queue.append((child, path[:]))  
+        self.nodesInMem = 0
         
-        #Could not find goal
-        timerEnd = timer()
-        totalTime = (timerEnd - timerStart) * 1000
-
-        self.numNodesExp = numOfNodesExpanded
-        self.maxNodesInMem = maxNodeMem
-        self.time = totalTime
-        self.costPath = -1
-        self.pathSeq = "NULL"
-
-        return -1
+    def __Data__(self):
+        return self.data
     
-    def IDS(self, src, target, matrix):
+    def IDS(self, src, goal, matrix):
 
         #Timer Start
         timerStart = timer()
@@ -116,49 +19,65 @@ class Iterative_Deep_Search():
         limit = 0
         cost = 0
 
+        #IDS continues to increase the limit when no solution is found 
         while 1 == 1:
             exploredNodes = []
             exploredNodes.append(src)
             path = []
 
-            if(self.DLS(src, target, limit, matrix, exploredNodes, path, cost) == 1):
-                print("FOUND THE NODE at DEPTH: ", limit)
-                path.append(target)
-                self.pathSeq = path
-                self.costPath += matrix[target[0]][target[1]]
-                self.costPath += matrix[src[0]][src[1]]
-                timerEnd = timer()
+            #If depth limited search finds the goal it will return 1 as well as all other attributes
+            if(self.DLS(src, goal, limit, matrix, exploredNodes, path, cost) == 1):
+                path.append(goal)
+                self.data.pathSeq = path
+                #Adds first and last nodes into the total cost
+                self.data.costPath += matrix[goal[0]][goal[1]]
+                self.data.costPath += matrix[src[0]][src[1]]
+    
+                self.data.numNodesExp = len(exploredNodes)
 
+                timerEnd = timer()
                 totalTime = (timerEnd - timerStart) * 1000
-                self.time = totalTime
+                self.data.time = totalTime
                 return 1
 
+            #Goal is not attainable
             if self.exploredNodesCopy == exploredNodes:
+                timerEnd = timer()
+                totalTime = (timerEnd - timerStart) * 1000
+                self.data.time = totalTime
+                self.data.numNodesExp = len(exploredNodes)
+        
+                self.data.time = totalTime
+                self.data.costPath = -1
+                self.data.pathSeq = "NULL"
                 return 0
-            
+
+            #Saved here to check if all nodes have been explored and goal has not been found
             self.exploredNodesCopy = exploredNodes
 
+            #Start over with a new limit
             cost = 0
-            self.costPath = 0
-            self.numNodesExp = 0
+            self.data.costPath = 0
+            self.data.numNodesExp = 0
+            self.nodesInMem = 0
             limit += 1
 
         return 0
 
-    def DLS(self, src, target, maxDepth, matrix, exploredNodes, path, cost):
+    #Depth Limited Search
+    def DLS(self, src, goal, maxDepth, matrix, exploredNodes, path, cost):
 
         valid_coords = []
-
         directions = list([(-1,0), (1,0), (0,-1), (0,1)]) 
         matrixLen = len(matrix)
 
-        if src == target:
-            print("Depth: " , maxDepth)
+        if src == goal:
             return 1
         
         if maxDepth <= 0:
             return 0
 
+        #Checks each valid neighbor and puts into valid coordinate list
         for move in reversed(directions):
                 x_coord = src[0] + move[0] 
                 y_coord = src[1] + move[1]
@@ -166,64 +85,40 @@ class Iterative_Deep_Search():
                 #CHECK VALUE FOR 0 and check if valid coordinates
                 if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
                     valid_coords.append((x_coord,y_coord))
-                
+
+        #Checks valid children and recurivelsy calls them representing a stack       
         for child in valid_coords:
             if child not in exploredNodes:
-                #Adds unexplored nodes in queue
+                #Adds unexplored nodes stack
                 exploredNodes.append(child)
-                if(self.DLS(child, target, maxDepth-1, matrix, exploredNodes, path, cost)):
-                    print("SUCCESS node", src, " THsi is the depth: ", maxDepth)
+
+                #Checks for max memory held
+                self.nodesInMem += 1
+                if (self.data.maxNodesMem < self.nodesInMem):
+                    self.data.maxNodesMem = self.nodesInMem
+
+                #Recursively calls iteslf to find the goal node
+                if(self.DLS(child, goal, maxDepth-1, matrix, exploredNodes, path, cost)):
                     path.insert(0, src)
                     exploredNodes.append(child)
-                    self.costPath += matrix[child[0]][child[1]]
-                    print("THIS IS COST: ", cost)
+                    #Calculates total cost of path excluding the first and last
+                    self.data.costPath += matrix[child[0]][child[1]]
+
                     return 1
-                #exploredNodes.append(child)
-                print("THis the node", src, " THsi is the depth: ", maxDepth)
-                #numOfNodesExpanded += 1
-                self.numNodesExp += 1
 
-                # queue.append((child, path[:]))  
-
-        # for i in matrix[src]:
-        #     if(self.DLS(i, target, maxDepth-1, matrix)):
-        #         return 1
-        # for move in directions:
-            
-        #     x_coord = src[0] + move[0] 
-        #     y_coord = src[1] + move[1] 
-
-        #     print("this is x: ", x_coord)
-        #     print("this is y: ", y_coord)
-
-            # for child in valid_coords:
-            #     if child not in exploredNodes:
-            #         exploredNodes.append(child)
-            #         numOfNodesExpanded += 1
-
-            #         queue.append((child, path[:]))  
-            
-            #CHECK VALUE FOR 0 and check if 
-            # if x_coord >= 0 and y_coord >= 0 and  x_coord <= matrixLen-1 and y_coord <= matrixLen-1 and matrix[x_coord][y_coord] != 0:
-            #     if src not in eN:
-            #         if(self.DLS(move, target, maxDepth-1, matrix, eN)):
-            #             print("SUCCESS node", src, " THsi is the depth: ", maxDepth)
-            #             return 1
-            #         eN.append(src)
-            #         print("THis the node", src, " THsi is the depth: ", maxDepth)
-        print("en: ", exploredNodes)
+        #Node was never found (but really this should never go here)
         return 0
 
     def print_info(self):
         
         print("Printing out information")
         # Print Cost of path found
-        print("1) cost of path: {} ".format(self.costPath))
+        print("1) cost of path: {} ".format(self.data.costPath))
         # Print number of nodes expanded
-        print("2) number of nodes expanded: {} ".format(self.numNodesExp))
+        print("2) number of nodes expanded: {} ".format(self.data.numNodesExp))
         # Print Maximum number of nodes held in memory
-        # print("3) maximum number of nodes held in memory: {} ".format(self.maxNodesInMem))
+        print("3) maximum number of nodes held in memory: {} ".format(self.data.maxNodesMem))
         # print Runtime in Milliseconds 
-        print("4) runtime in milliseconds: {} ".format(self.time))
+        print("4) runtime in milliseconds: {} ".format(self.data.time))
         # Print path
-        print("5) path: {} ".format(self.pathSeq))
+        print("5) path: {} ".format(self.data.pathSeq))
