@@ -133,10 +133,10 @@ class Iterative_Deep_Search():
                 self.time = totalTime
                 return 1
 
-            # if self.exploredNodesCopy == exploredNodes:
-            #     return 0
+            if self.exploredNodesCopy == exploredNodes:
+                return 0
             
-            # self.exploredNodesCopy = exploredNodes
+            self.exploredNodesCopy = exploredNodes
 
             cost = 0
             self.costPath = 0
