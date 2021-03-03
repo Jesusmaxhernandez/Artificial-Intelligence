@@ -21,6 +21,10 @@ class Iterative_Deep_Search():
 
         #IDS continues to increase the limit when no solution is found 
         while 1 == 1:
+            if timer() - timerStart >= 180:
+                print("IDS elapsed time is greater than 3 minutes ")
+                exit()
+
             exploredNodes = []
             exploredNodes.append(src)
             path = []
